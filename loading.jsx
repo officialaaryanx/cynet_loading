@@ -110,7 +110,6 @@ export default function Loading({ onFinish } = {}) {
 							<MatrixColumn key={i} rows={40} delay={(i % 7) * 120} />
 						))}
 					</div>
-					<div className="bypass-text chroma">{bypassText}</div>
 				</div>
 			</>
 		)
