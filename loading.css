@@ -1,24 +1,153 @@
-/* Video Loader Container */
-.video-loader-container {
+.cyber-spiral-container {
   position: fixed;
   inset: 0;
   background: #000;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 99999;
   overflow: hidden;
-  transition: opacity 0.6s ease-out;
+  perspective: 500px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-.video-loader-container.fade-out {
+.wrapper {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* The Neon Particles */
+.wrapper i {
+  display: block;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   opacity: 0;
+  background: var(--clr);
+  /* Multi-layered glow for "Gaand Faad" effect */
+  box-shadow: 0 0 10px var(--clr), 0 0 20px var(--clr), 0 0 40px var(--clr);
+  
+  /* Spiral Math */
+  transform: rotate(calc(var(--i) * 11.6129deg)) translate3d(100px, 0, 0);
+  
+  animation: cyberSpin 3s infinite ease-in-out;
+  animation-delay: calc(var(--i) * 0.04839s);
+}
+
+@keyframes cyberSpin {
+  0% {
+    opacity: 0;
+    transform: rotate(calc(var(--i) * 11.6129deg)) translate3d(100px, 0, 0);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    /* Zooming particles into the camera */
+    transform: rotate(calc(var(--i) * 11.6129deg)) translate3d(-5px, -5px, 600px);
+  }
+}
+
+/* Center Content & Glitch Logo */
+.center-content {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.cyber-glitch-text {
+  font-size: 5rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 12px;
+  margin: 0;
+  position: relative;
+  text-transform: uppercase;
+  /* Glowing text */
+  filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.8));
+}
+
+/* Glitch Animation for the Text */
+.cyber-glitch-text::before,
+.cyber-glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.cyber-glitch-text::before {
+  color: #ff00ff; /* Pink Glitch */
+  z-index: -1;
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+.cyber-glitch-text::after {
+  color: #00f3ff; /* Blue Glitch */
+  z-index: -2;
+  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
+
+/* Status Bar Below Text */
+.status-label {
+  color: #39ff14; /* Green Status */
+  font-size: 0.9rem;
+  letter-spacing: 5px;
+  text-shadow: 0 0 10px #39ff14;
+}
+
+.progress-line {
+  width: 150px;
+  height: 2px;
+  background: #333;
+  margin: 10px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: #39ff14;
+  animation: loading-line 2s infinite;
+}
+
+@keyframes loading-line {
+  100% { left: 100%; }
+}
+
+/* Overlays */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 51%);
+  background-size: 100% 4px;
+  z-index: 100;
   pointer-events: none;
 }
 
-.loader-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, transparent 30%, #000 100%);
+  z-index: 5;
 }
